@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="//ajax.aspnetcdn.com/ajax/jquery.ui/1.10.3/jquery-ui.min.js"></script>
+        
+   <link rel="stylesheet" type="text/css" href="style.css"/> 
+   <script>
+var elem_left;
+var elem_top;
+$(document).ready(function(){
+    setInterval(function() {
+        $.ajax({
+        type: 'POST',
+        url: 'index.php',
+        data: {
+            CallBackClient: true               
+        },
+        success: function(data){
+            console.log("client::" + data.top + "; " + data.left);
+            document.getElementById("ClientBoll").style.top = data.top + 'px';
+            document.getElementById("ClientBoll").style.left = data.left + 'px';
+        }
+    })
+        .fail(function (f){
+            alert("fail:: " + f);
+    });
+    }, 5000);        
+});
+
+$.ajax({
+      type: 'POST',
+      url: 'index.php',
+      data: {
+          Start: true
+      },
+        success: function(data){
+//                  alert(data);
+            var result = jQuery.parseJSON(data);
+//            console.log("on Client:: " + result.left + " ; " + result.top);                  
+            document.getElementById("ClientBoll").style.top = result.top + 'px';
+            document.getElementById("ClientBoll").style.left = result.left + 'px';
+       }
+  });
+</script>
+    </head>
+    <body>
+        <img id ="ClientBoll" src="http://data2.floomby.com/files/share/5_10_2015/12/kBFVGsZL0iIHZ6KKMXJuw.jpg" style="left: 0px; top: 0px"/>  
+    </body>
+</html>

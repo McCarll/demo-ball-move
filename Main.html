@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+
+<head>
+   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+   <script src="//ajax.aspnetcdn.com/ajax/jquery.ui/1.10.3/jquery-ui.min.js"></script>
+   <link rel="stylesheet" type="text/css" href="style.css"/> 
+   
+</head>
+    
+<script>  
+    var elev_left;
+    var elem_top;
+    
+    $(document).ready(function() {
+    $( "#boll" ).draggable(function(){       
+    });
+  });
+  
+$.ajax({
+      type: 'POST',
+      url: 'index.php',
+      data: {
+          Start: true
+      },
+        success: function(data){
+//                  alert(data);
+            var result = jQuery.parseJSON(data);
+            console.log("back:: " + result.left + " ; " + result.top);                  
+            document.getElementById("boll").style.top = result.top + 'px';
+            document.getElementById("boll").style.left = result.left + 'px';
+       }
+  });
+  
+$(document).ready(function(){
+  $('#boll').mousemove(function(e){
+    // положение элемента
+    var pos = $(this).offset();
+     elem_left = pos.left;
+     elem_top = pos.top;
+     console.log("send:: " + elem_left + " ; " + elem_top);
+        $.ajax({
+            type: 'POST',
+            url: 'index.php',
+            data: {
+                left: elem_left,
+                top: elem_top,
+                SendToServer: true
+            },
+              success: function(data){
+//                  alert(data);
+                  var result = jQuery.parseJSON(data);
+                  console.log("from main:: " + result.left + " ; " + result.top);
+             }
+        });
+  });
+});
+
+
+
+</script>
+
+<body> 
+    <img id = "boll" src="http://data2.floomby.com/files/share/5_10_2015/12/kBFVGsZL0iIHZ6KKMXJuw.jpg" name = "image" style="top: 1px; left: 1px" href='index.php'/>  
+</body>
+</html
+
